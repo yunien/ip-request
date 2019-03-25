@@ -1,22 +1,26 @@
 const cache = require('memory-cache');
 
 exports.index = (req, res) => {
-  const headers = req.headers;
-  let host = "";
-  if (headers) {
-    host = headers.host.split(":");
-    if (cache.get(host[0])) {
-      if (cache.get(host[0]) === 'error') {
-        console.log('error');
+  let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  if (ip.substr(0, 7) === "::ffff:") {
+    ip = ip.substr(7)
+  } else {
+    ip = "";
+  }
+
+  if (ip) {
+    if (cache.get(ip)) {
+      if (cache.get(ip) === 'error') {
+        // console.log('error');
         //do nothing
-      } else if (parseInt(cache.get(host[0])) < 60) {
-        let times = parseInt(cache.get(host[0])) + 1;
-        cache.put(host[0], times);
+      } else if (parseInt(cache.get(ip)) < 60) {
+        let times = parseInt(cache.get(ip)) + 1;
+        cache.put(ip, times);
       } else {
-        cache.put(host[0], 'error');
+        cache.put(ip, 'error');
       }
     } else {
-      cache.put(host[0], 1);
+      cache.put(ip, 1);
     }
   }
 
