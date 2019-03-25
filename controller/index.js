@@ -3,7 +3,7 @@ const controller = require('./indexController');
 
 const router = express.Router();
 
-router.get('/test', controller.text);
-// app.get('/', (req, res) => res.send('hello, Dcard.'))
+router.get('/', controller.index);
+router.get('/html', controller.html);
 
 module.exports = router;
