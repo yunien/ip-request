@@ -11,7 +11,7 @@ npm install
 
 ## RUN
 ```javascript=
-node app.js
+npm start
 ```
 
 ## Restful API
