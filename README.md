@@ -9,4 +9,4 @@ node app.js
 ```
 
 ## Restful API
-> http://localhost:3000/
+> http://{ServerIp}:3000/
